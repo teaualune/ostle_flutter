@@ -8,11 +8,28 @@ class OstleCoord {
   int row = 0;
   int col = 0;
   OstleCoord(this.row, this.col);
+
   operator ==(dynamic another) {
     if (another is OstleCoord) {
       return this.row == another.row && this.col == another.col;
     } else {
       return false;
+    }
+  }
+
+  OstleCoord operator +(dynamic another) {
+    if (another is OstleCoord) {
+      return OstleCoord(this.row + another.row, this.col + another.col);
+    } else {
+      return this;
+    }
+  }
+
+  OstleCoord operator -(dynamic another) {
+    if (another is OstleCoord) {
+      return OstleCoord(this.row - another.row, this.col - another.col);
+    } else {
+      return this;
     }
   }
 
@@ -22,12 +39,18 @@ class OstleCoord {
   @override
   String toString() => '$row-$col';
 
-  static OstleCoord zero = OstleCoord(0, 0);
+  bool isOutside(int tileCount) =>
+    this.row < 0 ||
+    this.row > tileCount - 1 ||
+    this.col < 0 ||
+    this.col > tileCount - 1;
 
-  static OstleCoord _up = OstleCoord(-1, 0);
-  static OstleCoord _right = OstleCoord(0, 1);
-  static OstleCoord _down = OstleCoord(1, 0);
-  static OstleCoord _left = OstleCoord(0, -1);
+  static final OstleCoord zero = OstleCoord(0, 0);
+
+  static final OstleCoord _up = OstleCoord(-1, 0);
+  static final OstleCoord _right = OstleCoord(0, 1);
+  static final OstleCoord _down = OstleCoord(1, 0);
+  static final OstleCoord _left = OstleCoord(0, -1);
 
   static OstleCoord of(PieceDirection direction) {
     switch(direction) {
@@ -43,6 +66,13 @@ class OstleCoord {
         return zero;
     }
   }
+
+  static final List<PieceDirection> allDirections = [
+    PieceDirection.up,
+    PieceDirection.right,
+    PieceDirection.down,
+    PieceDirection.left,
+  ];
 }
 
 /// https://github.com/spritewidget/spritewidget/blob/master/example/weather/lib/weather_demo.dart
@@ -65,5 +95,26 @@ class GradientNode extends NodeWithSize {
     ).createShader(rect);
 
     canvas.drawRect(rect, gradientPaint);
+  }
+}
+
+abstract class ClickableNodeMixin extends Node {
+
+  int _firstPointer;
+
+  void onClick(Offset boxPosition);
+  
+  @override
+  bool handleEvent(SpriteBoxEvent event) {
+    if (event.type == PointerDownEvent) {
+      this._firstPointer = event.pointer;
+    } else if (event.type == PointerUpEvent) {
+      print(this.runtimeType);
+      if (event.pointer == this._firstPointer) {
+        this.onClick(event.boxPosition);
+      }
+      this._firstPointer = null;
+    }
+    return true;
   }
 }

@@ -1,15 +1,13 @@
 import 'dart:ui';
 import 'package:flutter/gestures.dart';
 import 'package:spritewidget/spritewidget.dart';
+import 'utils.dart';
 
 abstract class PieceNodeCallback {
   void onClickPiece();
-
-  // TODO direction
-  void onSwipePiece();
 }
 
-class PieceNode extends NodeWithSize {
+class PieceNode extends NodeWithSize with ClickableNodeMixin {
   static final _shrinkRatio = 0.8;
   static final Paint _highlightPaint = Paint()..
     color = Color(0xccffffff);
@@ -18,8 +16,6 @@ class PieceNode extends NodeWithSize {
   Paint _paint;
   bool highlighted;
   PieceNodeCallback callback;
-
-  int _firstPointer;
 
   PieceNode(this.frameSize, Color color, this.callback) : super(Size.square(frameSize)) {
     this._paint = Paint()..
@@ -31,16 +27,8 @@ class PieceNode extends NodeWithSize {
   Offset get _center => Offset(this._radius, this._radius);
 
   @override
-  bool handleEvent(SpriteBoxEvent event) {
-    if (event.type == PointerDownEvent) {
-      this._firstPointer = event.pointer;
-    } else if (event.type == PointerUpEvent) {
-      if (event.pointer == this._firstPointer) {
-        this.callback.onClickPiece();
-      }
-      this._firstPointer = null;
-    }
-    return false;
+  void onClick(Offset boxPosition) {
+    this.callback.onClickPiece();
   }
 }
 
@@ -61,7 +49,7 @@ class SquarePieceNode extends PieceNode {
         RRect.fromRectAndRadius(
           Rect.fromCircle(
             center: this._center,
-            radius: this._radius * (PieceNode._shrinkRatio + 0.1),
+            radius: this._radius * (PieceNode._shrinkRatio + 0.16),
           ),
           Radius.circular((SquarePieceNode._borderRadius + 1)),
         ),
@@ -97,7 +85,7 @@ class HolePieceNode extends PieceNode {
     if (highlighted) {
       canvas.drawCircle(
         this._center,
-        this._radius * (PieceNode._shrinkRatio + 0.1),
+        this._radius * (PieceNode._shrinkRatio + 0.16),
         PieceNode._highlightPaint,
       );
     }

@@ -22,4 +22,13 @@ class GameConfig {
     config.boardConfig = basicBoardConfig;
     return config;
   }
+
+  static GameConfig grayConfig() {
+    GameConfig config = GameConfig();
+    config.player1Color = const Color(0xffdddddd);
+    config.player2Color = const Color(0xff333333);
+    config.holeColor = const Color(0xff888888);
+    config.boardConfig = basicBoardConfig;
+    return config;
+  }
 }

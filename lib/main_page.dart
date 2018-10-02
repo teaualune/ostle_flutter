@@ -5,6 +5,7 @@ import 'package:flutter/services.dart';
 import 'package:spritewidget/spritewidget.dart';
 import 'game_config.dart';
 import 'game_state.dart';
+import 'loading_widget.dart';
 import 'ostle_world.dart';
 import 'player_dashboard.dart';
 
@@ -15,10 +16,10 @@ class MainPage extends StatefulWidget {
   _MainPageState createState() => _MainPageState();
 }
 
-class _MainPageState extends State<MainPage> {
+class _MainPageState extends State<MainPage> implements GameStateCallback {
 
   ImageMap _assets;
-  OstleWorld _world = OstleWorld();
+  OstleWorld _world;
   GameState _state;
   GameConfig _config;
 
@@ -27,6 +28,7 @@ class _MainPageState extends State<MainPage> {
   Future<Null> _loadAssets(AssetBundle bundle) async {
     _assets = ImageMap(bundle);
     await _assets.load(<String>[
+      'assets/arrow-01.png',
       'assets/ostle_tile.png',
     ]);
   }
@@ -42,11 +44,7 @@ class _MainPageState extends State<MainPage> {
   @override
   Widget build(BuildContext context) {
     if (this._state == null) {
-      return new Container(
-        decoration: new BoxDecoration(
-          color: const Color(0xff444444),
-        ),
-      );
+      return LoadingWidget();
     }
 
     var mainStructure = <Widget>[
@@ -67,7 +65,7 @@ class _MainPageState extends State<MainPage> {
           ),
           AspectRatio(
             aspectRatio: 1.0,
-            child: SpriteWidget(this._world),
+            child: this._world != null ? SpriteWidget(this._world) : LoadingWidget(),
           ),
           Expanded(
             child: PlayerDashboard(
@@ -88,7 +86,9 @@ class _MainPageState extends State<MainPage> {
           color: Color(0x88000000),
         ),
         child: GestureDetector(
-          onTap: this.restart,
+          onTap: () {
+            this.restart();
+          },
           child: Center(
             child: Transform(
               alignment: FractionalOffset.center,
@@ -116,17 +116,30 @@ class _MainPageState extends State<MainPage> {
     );
   }
 
+  @override
+    void dispose() {
+    if (this._state != null) {
+      this._state.clear();
+    }
+    super.dispose();
+  }
+
   void restart() {
     this.setState(() {
+      // this._world = OstleWorld();
       // TODO read config or state from persistent storage
       this._config = GameConfig.defaultConfig();
-      this._state = GameState(this._config);
-      this._world.initializeWorld(this._config, this._state, this._assets);
+      if (this._state != null) {
+        this._state.clear();
+      }
+      this._state = GameState(this, this._config);
+      this._world = OstleWorld(this._config, this._state, this._assets);
       this._winner = null;
     });
     this.changeTurn();
   }
 
+  @override
   void changeTurn([bool player1Active]) {
     if (player1Active == null) {
       player1Active = randomBool();
@@ -137,6 +150,7 @@ class _MainPageState extends State<MainPage> {
     });
   }
 
+  @override
   void takePiece(PlayerState player) {
     this.setState(() {
       player.takenPieces += 1;

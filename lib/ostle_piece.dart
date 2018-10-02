@@ -5,8 +5,7 @@ import 'utils.dart';
 enum PieceType { player1, player2, hole }
 
 abstract class OstlePieceCallback {
-  void onClick(OstleCoord coord);
-  void onSwipeAt(OstleCoord coord, PieceDirection direction);
+  void onClickPiece(OstleCoord coord);
 }
 
 abstract class OstlePiece implements PieceNodeCallback {
@@ -20,11 +19,8 @@ abstract class OstlePiece implements PieceNodeCallback {
 
   @override
   void onClickPiece() {
-    this.callback.onClick(this.coord);
+    this.callback.onClickPiece(this.coord);
   }
-
-  @override
-  void onSwipePiece() {}
 
   OstlePiece();
 
@@ -46,22 +42,30 @@ abstract class OstlePiece implements PieceNodeCallback {
     instance.callback = callback;
     return instance;
   }
+
+  void setNodePosition() {
+    if (this.node == null) return;
+    double size = this.node.size.width;
+    // TODO animation
+    this.node.position = Offset(
+      (this.coord.col + 0.5) * size,
+      (this.coord.row + 0.5) * size,
+    );
+  }
 }
 
 class SquarePiece extends OstlePiece {
-  // SquarePiece(Color color, PieceType type) : super(color, type);
 
   @override
-    PieceNode build(double frameSize) {
-      return SquarePieceNode(frameSize, this.color, this);
-    }
+  PieceNode build(double frameSize) {
+    return SquarePieceNode(frameSize, this.color, this);
+  }
 }
 
 class HolePiece extends OstlePiece {
-  // HolePiece(Color color) : super(color, PieceType.hole);
 
   @override
-    PieceNode build(double frameSize) {
-      return HolePieceNode(frameSize, this.color, this);
-    }
+  PieceNode build(double frameSize) {
+    return HolePieceNode(frameSize, this.color, this);
+  }
 }
