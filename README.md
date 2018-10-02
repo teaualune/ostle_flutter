@@ -1,8 +1,7 @@
 # ostle_flutter
 
-A new Flutter project.
+Ostle built in Flutter with [SpriteWidget](https://github.com/spritewidget/spritewidget).
 
-## Getting Started
-
-For help getting started with Flutter, view our online
-[documentation](https://flutter.io/).
+All rights of Ostle (オストル) belongs to [Miyabi Games](https://twitter.com/miyabigames),
+this project is just a coding practice to implement the game rule.
+Please purchase the original version to support the creator.

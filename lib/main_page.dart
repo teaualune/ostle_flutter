@@ -124,9 +124,13 @@ class _MainPageState extends State<MainPage> {
       this._world.initializeWorld(this._config, this._state, this._assets);
       this._winner = null;
     });
+    this.changeTurn();
   }
 
-  void changeTurn(bool player1Active) {
+  void changeTurn([bool player1Active]) {
+    if (player1Active == null) {
+      player1Active = randomBool();
+    }
     this.setState(() {
       this._state.player1.active = player1Active;
       this._state.player2.active = !player1Active;
@@ -146,6 +150,8 @@ class _MainPageState extends State<MainPage> {
   void win(PlayerState player) {
     this.setState(() {
       this._winner = player;
+      this._state.player1.active = false;
+      this._state.player2.active = false;
     });
   }
 }

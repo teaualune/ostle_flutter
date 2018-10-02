@@ -23,8 +23,8 @@ class PlayerDashboard extends StatelessWidget {
           end: Alignment.bottomCenter,
           stops: [0.0, 1.0],
           colors: [
-            this.playerColor,
-            this.playerColor.withAlpha(200),
+            Colors.black12,
+            this.playerColor.withAlpha(128),
           ],
         )
       ),

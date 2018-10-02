@@ -13,6 +13,7 @@ class OstleWorld extends NodeWithSize {
 
   GradientNode _backgroundNode;
   double _tileSize;
+  GameState _state;
 
   OstleWorld(): super(const Size(_fieldSize, _fieldSize));
 
@@ -20,6 +21,8 @@ class OstleWorld extends NodeWithSize {
 
     double d = _fieldSize / gameState.tileCount;
     this._tileSize = d;
+
+    this._state = gameState;
 
     // 1. background
     this._backgroundNode = GradientNode(
@@ -42,10 +45,10 @@ class OstleWorld extends NodeWithSize {
     // 3. 10 square pieces
     // 4. 1 hole piece
     gameState.board.forEach((coord, piece) {
-      piece.node = piece.type == PieceType.hole ?
-        HolePieceNode(d, piece.color) :
-        SquarePieceNode(d, piece.color);
+      piece.node = piece.build(d);
+      piece.node.pivot = Offset(0.5, 0.5);
       piece.node.position = Offset((coord.col + 0.5) * d, (coord.row + 0.5) * d);
+      piece.node.userInteractionEnabled = true;
       this.addChild(piece.node);
     });
 

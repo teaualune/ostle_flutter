@@ -2,6 +2,8 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:spritewidget/spritewidget.dart';
 
+enum PieceDirection { up, right, down, left }
+
 class OstleCoord {
   int row = 0;
   int col = 0;
@@ -15,7 +17,32 @@ class OstleCoord {
   }
 
   @override
-    int get hashCode => this.row * 255 + this.col;
+  int get hashCode => this.row * 255 + this.col;
+
+  @override
+  String toString() => '$row-$col';
+
+  static OstleCoord zero = OstleCoord(0, 0);
+
+  static OstleCoord _up = OstleCoord(-1, 0);
+  static OstleCoord _right = OstleCoord(0, 1);
+  static OstleCoord _down = OstleCoord(1, 0);
+  static OstleCoord _left = OstleCoord(0, -1);
+
+  static OstleCoord of(PieceDirection direction) {
+    switch(direction) {
+      case PieceDirection.up:
+        return _up;
+      case PieceDirection.right:
+        return _right;
+      case PieceDirection.down:
+        return _down;
+      case PieceDirection.left:
+        return _left;
+      default:
+        return zero;
+    }
+  }
 }
 
 /// https://github.com/spritewidget/spritewidget/blob/master/example/weather/lib/weather_demo.dart
