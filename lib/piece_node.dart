@@ -18,7 +18,6 @@ class PieceNode extends NodeWithSize with ClickableNodeMixin {
   Color _paintColor;
   Paint _highlightPaint;
   bool highlighted;
-  double _opacity;
   PieceNodeCallback callback;
 
   PieceNode(this.frameSize, Color color, this.callback) : super(Size.square(frameSize)) {
@@ -28,14 +27,12 @@ class PieceNode extends NodeWithSize with ClickableNodeMixin {
     );
     this._highlightPaint = PieceNode._getHighlightPaint();
     this.highlighted = false;
-    this._opacity = 1.0;
   }
 
   double get _radius => 0.5 * this.frameSize;
   Offset get _center => Offset(this._radius, this._radius);
 
   set opacity(double o) {
-    this._opacity = o;
     int alpha = (255.0 * o).round();
     this._paint.color = this._paintColor.withAlpha(alpha);
     this._highlightPaint.color = Color.fromARGB(alpha, 255, 255, 255);
