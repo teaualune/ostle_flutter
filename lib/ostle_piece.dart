@@ -1,6 +1,6 @@
 import 'dart:ui';
 import 'piece_node.dart';
-import 'utils.dart';
+import 'ostle_coord.dart';
 
 enum PieceType { player1, player2, hole }
 
@@ -9,6 +9,9 @@ abstract class OstlePieceCallback {
 }
 
 abstract class OstlePiece implements PieceNodeCallback {
+
+  static final _moveInterval = 0.3;
+
   Color color;
   PieceType type;
   PieceNode node;
@@ -43,13 +46,28 @@ abstract class OstlePiece implements PieceNodeCallback {
     return instance;
   }
 
-  void setNodePosition() {
+  void setNodePosition(bool animated) {
     if (this.node == null) return;
     double size = this.node.size.width;
-    // TODO animation
-    this.node.position = Offset(
+    Offset dest = Offset(
       (this.coord.col + 0.5) * size,
       (this.coord.row + 0.5) * size,
+    );
+    if (animated) {
+      this.node.animateTo(dest, OstlePiece._moveInterval);
+    } else {
+      this.node.position = dest;
+    }
+  }
+
+  void runTakenAnimation(OstleCoord destCoord) {
+    double size = this.node.size.width;
+    this.node.animateToAndDisappear(
+      Offset(
+        (destCoord.col + 0.5) * size,
+        (destCoord.row + 0.5) * size,
+      ),
+      OstlePiece._moveInterval,
     );
   }
 }

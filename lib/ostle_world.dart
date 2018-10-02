@@ -43,7 +43,7 @@ class OstleWorld extends NodeWithSize {
         ..userInteractionEnabled = true
         ..zPosition = 3.0
       );
-      piece.setNodePosition();
+      piece.setNodePosition(false);
       this.addChild(piece.node);
     });
 

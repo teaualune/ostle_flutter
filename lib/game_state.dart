@@ -1,7 +1,7 @@
 import 'arrow_pad.dart';
 import 'game_config.dart';
 import 'ostle_piece.dart';
-import 'utils.dart';
+import 'ostle_coord.dart';
 
 abstract class GameStateCallback {
   void changeTurn([bool player1Active]);
@@ -222,7 +222,7 @@ class GameState implements OstlePieceCallback, ArrowPadCallback {
     OstleCoord newCoord = coord + OstleCoord.of(direction);
     OstlePiece next = this.board[newCoord];
     if (next != null && next.type == PieceType.hole) {
-      this._take(target);
+      this._take(target, direction);
       return;
     }
 
@@ -231,18 +231,18 @@ class GameState implements OstlePieceCallback, ArrowPadCallback {
     target.coord = newCoord;
 
     if (target is SquarePiece && newCoord.isOutside(this.tileCount)) {
-      this._take(target);
+      this._take(target, direction);
     } else {
-      target.setNodePosition();
+      target.setNodePosition(true);
     }
   }
 
-  void _take(SquarePiece piece) {
+  void _take(SquarePiece piece, PieceDirection takenDirection) {
     OstleCoord coord = piece.coord;
     if (this.board[coord] != piece) return;
     this.board[coord] = null;
-    // TODO animation?
-    piece.node.removeFromParent();
+    piece.runTakenAnimation(coord + OstleCoord.of(takenDirection));
+
     PlayerState player = piece.type == PieceType.player1 ? this.player2 : this.player1;
     this._gameStateCallback.takePiece(player);
   }

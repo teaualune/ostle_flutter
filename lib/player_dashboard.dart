@@ -44,12 +44,11 @@ class PlayerDashboard extends StatelessWidget {
             ),
           ),
           Row(
-            // crossAxisAlignment: CrossAxisAlignment.end,
             mainAxisAlignment: MainAxisAlignment.end,
             children: (
               List.generate(this.takenCount, (i) => Container(
                 decoration: BoxDecoration(color: this.opponentColor),
-                padding: EdgeInsets.only(right: 8.0),
+                margin: EdgeInsets.only(left: 8.0),
                 width: 12.0,
                 height: 12.0,
               ))

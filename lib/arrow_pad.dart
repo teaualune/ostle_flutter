@@ -1,5 +1,6 @@
 import 'dart:ui';
 import 'package:spritewidget/spritewidget.dart';
+import 'ostle_coord.dart';
 import 'utils.dart';
 
 abstract class ArrowPadCallback {

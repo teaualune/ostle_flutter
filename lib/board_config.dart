@@ -1,4 +1,4 @@
-import 'utils.dart';
+import 'ostle_coord.dart';
 
 class BoardConfig {
   int tileCount;

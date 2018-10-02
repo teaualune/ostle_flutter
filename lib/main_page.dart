@@ -65,7 +65,9 @@ class _MainPageState extends State<MainPage> implements GameStateCallback {
           ),
           AspectRatio(
             aspectRatio: 1.0,
-            child: this._world != null ? SpriteWidget(this._world) : LoadingWidget(),
+            child: this._world != null ?
+              ClipRect(child: SpriteWidget(this._world)) :
+              LoadingWidget(),
           ),
           Expanded(
             child: PlayerDashboard(
