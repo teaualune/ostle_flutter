@@ -108,14 +108,16 @@ class _MainPageState extends State<MainPage> implements GameStateCallback {
       ));
     }
 
-    return Container(
+    return Scaffold(body: Container(
       decoration: BoxDecoration(
         color: Colors.white70,
       ),
       child: Stack(
         children: mainStructure,
       ),
-    );
+    ));
+
+    // return ;
   }
 
   @override

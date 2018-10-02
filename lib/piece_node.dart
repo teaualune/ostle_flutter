@@ -9,14 +9,13 @@ abstract class PieceNodeCallback {
 
 class PieceNode extends NodeWithSize with ClickableNodeMixin {
   static final _shrinkRatio = 0.8;
-  static Paint _getHighlightPaint() => (Paint()
+  static final Paint _highlightPaint= (Paint()
     ..color = Color(0xccffffff)
   );
 
   double frameSize;
   Paint _paint;
   Color _paintColor;
-  Paint _highlightPaint;
   bool highlighted;
   PieceNodeCallback callback;
 
@@ -25,7 +24,6 @@ class PieceNode extends NodeWithSize with ClickableNodeMixin {
     this._paint = (Paint()
       ..color = color
     );
-    this._highlightPaint = PieceNode._getHighlightPaint();
     this.highlighted = false;
   }
 
@@ -35,7 +33,6 @@ class PieceNode extends NodeWithSize with ClickableNodeMixin {
   set opacity(double o) {
     int alpha = (255.0 * o).round();
     this._paint.color = this._paintColor.withAlpha(alpha);
-    this._highlightPaint.color = Color.fromARGB(alpha, 255, 255, 255);
   }
 
   @override
@@ -53,7 +50,6 @@ class PieceNode extends NodeWithSize with ClickableNodeMixin {
   }
 
   void animateToAndDisappear(Offset dest, double interval) {
-    print('animateToAndDisappear $dest');
     this.actions.run(ActionSequence([
       OstleSpriteWidgetUtils.createMoveAction(
         this,
@@ -97,7 +93,7 @@ class SquarePieceNode extends PieceNode {
           ),
           Radius.circular((SquarePieceNode._borderRadius + 1)),
         ),
-        this._highlightPaint,
+        PieceNode._highlightPaint,
       );
     }
 
@@ -130,7 +126,7 @@ class HolePieceNode extends PieceNode {
       canvas.drawCircle(
         this._center,
         this._radius * (PieceNode._shrinkRatio + 0.16),
-        this._highlightPaint,
+        PieceNode._highlightPaint,
       );
     }
 

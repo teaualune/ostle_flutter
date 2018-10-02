@@ -36,7 +36,6 @@ abstract class ClickableNodeMixin extends Node {
     if (event.type == PointerDownEvent) {
       this._firstPointer = event.pointer;
     } else if (event.type == PointerUpEvent) {
-      print(this.runtimeType);
       if (event.pointer == this._firstPointer) {
         this.onClick(event.boxPosition);
       }

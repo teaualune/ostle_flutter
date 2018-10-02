@@ -72,7 +72,6 @@ class GameState implements OstlePieceCallback, ArrowPadCallback {
       this.highlighted = coord;
 
       List<PieceDirection> validDirections = this._getValidDirections(coord);
-      print(validDirections);
 
       this.arrowPad.show(
         coord,
@@ -214,7 +213,6 @@ class GameState implements OstlePieceCallback, ArrowPadCallback {
   }
 
   void _move(OstleCoord coord, PieceDirection direction) {
-    print('moving $coord to $direction');
     OstlePiece target = this.board[coord];
     if (target == null) return;
     target.node.highlighted = false;

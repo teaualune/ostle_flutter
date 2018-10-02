@@ -23,7 +23,7 @@ class PlayerDashboard extends StatelessWidget {
           end: Alignment.bottomCenter,
           stops: [0.0, 1.0],
           colors: [
-            Colors.black12,
+            this.playerColor.withAlpha(64),
             this.playerColor.withAlpha(128),
           ],
         )
@@ -40,7 +40,7 @@ class PlayerDashboard extends StatelessWidget {
             "Your Turn",
             style: TextStyle(
               fontSize: 20.0,
-              color: this.active ? const Color(0xffeeeeee) : const Color(0x44222222),
+              color: this.active ? const Color(0xff666666) : const Color(0x22666666),
             ),
           ),
           Row(
