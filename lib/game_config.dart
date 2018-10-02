@@ -31,4 +31,13 @@ class GameConfig {
     config.boardConfig = basicBoardConfig;
     return config;
   }
+
+  static GameConfig bigConfig() {
+    GameConfig config = GameConfig();
+    config.player1Color = const Color(0xffebdf33);
+    config.player2Color = const Color(0xff962820);
+    config.holeColor = const Color(0xff333333);
+    config.boardConfig = extendedBoardConfig;
+    return config;
+  }
 }

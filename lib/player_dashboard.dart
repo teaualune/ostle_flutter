@@ -33,15 +33,28 @@ class PlayerDashboard extends StatelessWidget {
         horizontal: 24.0,
       ),
       child: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        crossAxisAlignment: CrossAxisAlignment.end,
         children: <Widget>[
           Text(
             "Your Turn",
             style: TextStyle(
-              fontSize: 16.0,
+              fontSize: 20.0,
               color: this.active ? const Color(0xffeeeeee) : const Color(0x44222222),
             ),
           ),
-          Row(), // TODO taken count
+          Row(
+            // crossAxisAlignment: CrossAxisAlignment.end,
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: (
+              List.generate(this.takenCount, (i) => Container(
+                decoration: BoxDecoration(color: this.opponentColor),
+                padding: EdgeInsets.only(right: 8.0),
+                width: 12.0,
+                height: 12.0,
+              ))
+            ),
+          ),
         ],
       ),
     );

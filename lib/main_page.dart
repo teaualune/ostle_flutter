@@ -126,7 +126,6 @@ class _MainPageState extends State<MainPage> implements GameStateCallback {
 
   void restart() {
     this.setState(() {
-      // this._world = OstleWorld();
       // TODO read config or state from persistent storage
       this._config = GameConfig.defaultConfig();
       if (this._state != null) {
