@@ -14,7 +14,7 @@ class OstleWorld extends NodeWithSize {
     GameConfig gameConfig,
     GameState gameState,
     ImageMap imageMap,
-  ): super(const Size(_fieldSize, _fieldSize)) {
+  ): super(Size(_fieldSize, _fieldSize)) {
 
     double d = _fieldSize / gameState.tileCount;
 

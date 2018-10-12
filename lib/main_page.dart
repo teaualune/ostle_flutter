@@ -116,8 +116,6 @@ class _MainPageState extends State<MainPage> implements GameStateCallback {
         children: mainStructure,
       ),
     ));
-
-    // return ;
   }
 
   @override

@@ -7,9 +7,9 @@ class BoardConfig {
   BoardConfig(this.tileCount, this.holeOstleCoords, this.winCount);
 }
 
-final basicBoardConfig = new BoardConfig(5, [OstleCoord(2, 2)], 2);
+final basicBoardConfig = BoardConfig(5, [OstleCoord(2, 2)], 2);
 
-final extendedBoardConfig = new BoardConfig(7, [
+final extendedBoardConfig = BoardConfig(7, [
   OstleCoord(3, 2),
   OstleCoord(3, 4),
 ], 3);

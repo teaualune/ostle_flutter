@@ -40,7 +40,7 @@ class PlayerDashboard extends StatelessWidget {
             "Your Turn",
             style: TextStyle(
               fontSize: 20.0,
-              color: this.active ? const Color(0xff666666) : const Color(0x22666666),
+              color: this.active ? Color(0xff666666) : Color(0x22666666),
             ),
           ),
           Row(

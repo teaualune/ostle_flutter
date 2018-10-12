@@ -1,4 +1,4 @@
-package com.example.ostleflutter;
+package me.teaualune.ostleflutter;
 
 import android.os.Bundle;
 import io.flutter.app.FlutterActivity;
