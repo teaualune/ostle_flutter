@@ -12,5 +12,5 @@ To understand the game rule, it's good to start from the printable [trial versio
 
 ## Future Improvements
 
--[ ] Change configuration (player colors, etc.) in settings page
--[ ] Save/restore configurations and game states with persistent storage
+- [ ] Change configuration (player colors, etc.) in settings page
+- [ ] Save/restore configurations and game states with persistent storage
