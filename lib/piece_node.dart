@@ -9,7 +9,7 @@ abstract class PieceNodeCallback {
 
 class PieceNode extends NodeWithSize with ClickableNodeMixin {
   static final _shrinkRatio = 0.8;
-  static final Paint _highlightPaint= (Paint()
+  static final Paint _highlightPaint = (Paint()
     ..color = Color(0xccffffff)
   );
 

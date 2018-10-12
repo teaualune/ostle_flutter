@@ -1,11 +1,13 @@
-import 'dart:math';
 import 'dart:async';
+import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:spritewidget/spritewidget.dart';
+import 'board_config.dart';
 import 'game_config.dart';
 import 'game_state.dart';
 import 'loading_widget.dart';
+import 'ostle_preferences.dart';
 import 'ostle_world.dart';
 import 'player_dashboard.dart';
 
@@ -21,7 +23,10 @@ class _MainPageState extends State<MainPage> implements GameStateCallback {
   ImageMap _assets;
   OstleWorld _world;
   GameState _state;
-  GameConfig _config;
+  GameConfig _gameConfig;
+
+  // TODO add extended config
+  BoardConfig _boardConfig = basicBoardConfig;
 
   PlayerState _winner;
 
@@ -58,8 +63,9 @@ class _MainPageState extends State<MainPage> implements GameStateCallback {
               child: PlayerDashboard(
                 active: this._state.player1.active,
                 takenCount: this._state.player1.takenPieces,
-                playerColor: this._config.player1Color,
-                opponentColor: this._config.player2Color,
+                playerColor: this._gameConfig.player1Color,
+                opponentColor: this._gameConfig.player2Color,
+                onDialogResult: this.shouldRestart,
               ),
             ),
           ),
@@ -73,8 +79,9 @@ class _MainPageState extends State<MainPage> implements GameStateCallback {
             child: PlayerDashboard(
               active: this._state.player2.active,
               takenCount: this._state.player2.takenPieces,
-              playerColor: this._config.player2Color,
-              opponentColor: this._config.player1Color,
+              playerColor: this._gameConfig.player2Color,
+              opponentColor: this._gameConfig.player1Color,
+              onDialogResult: this.shouldRestart,
             ),
           ),
         ],
@@ -126,18 +133,25 @@ class _MainPageState extends State<MainPage> implements GameStateCallback {
     super.dispose();
   }
 
+  void shouldRestart(bool configChanged) {
+    if (configChanged) {
+      this.restart();
+    }
+  }
+
   void restart() {
-    this.setState(() {
-      // TODO read config or state from persistent storage
-      this._config = GameConfig.defaultConfig();
-      if (this._state != null) {
-        this._state.clear();
-      }
-      this._state = GameState(this, this._config);
-      this._world = OstleWorld(this._config, this._state, this._assets);
-      this._winner = null;
+    OstlePreferences.getGameConfigIndex().then((index) {
+      this.setState(() {
+        this._gameConfig = GameConfig.gameConfigs[index];
+        if (this._state != null) {
+          this._state.clear();
+        }
+        this._state = GameState(this, this._gameConfig, this._boardConfig);
+        this._world = OstleWorld(this._gameConfig, this._state, this._assets);
+        this._winner = null;
+      });
+      this.changeTurn();
     });
-    this.changeTurn();
   }
 
   @override
@@ -157,7 +171,7 @@ class _MainPageState extends State<MainPage> implements GameStateCallback {
       player.takenPieces += 1;
     });
 
-    if (player.takenPieces == this._config.boardConfig.winCount) {
+    if (player.takenPieces == this._boardConfig.winCount) {
       this.win(player);
     }
   }

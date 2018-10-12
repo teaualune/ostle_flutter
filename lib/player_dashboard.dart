@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'option_dialog.dart';
+
+typedef void OnDialogResultFunction(bool result);
 
 class PlayerDashboard extends StatelessWidget {
 
@@ -6,12 +9,14 @@ class PlayerDashboard extends StatelessWidget {
   final int takenCount;
   final Color playerColor;
   final Color opponentColor;
+  final OnDialogResultFunction onDialogResult;
 
   PlayerDashboard({
     this.active,
     this.takenCount,
     this.playerColor,
     this.opponentColor,
+    this.onDialogResult,
   });
 
   @override
@@ -53,6 +58,14 @@ class PlayerDashboard extends StatelessWidget {
                 height: 12.0,
               ))
             ),
+          ),
+          GestureDetector(
+            child: Text('⚙️'),
+            onTap: () {
+              OptionDialog.show(context).then((ret) {
+                this.onDialogResult(ret != null && ret);
+              });
+            },
           ),
         ],
       ),

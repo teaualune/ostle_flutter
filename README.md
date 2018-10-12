@@ -6,6 +6,8 @@ All rights of Ostle (オストル) belongs to [Miyabi Games](https://twitter.com
 this project is just a coding practice to implement the game rule.
 Please purchase the original version to support the creator.
 
+To understand the game rule, it's good to start from the printable [trial version](http://gamemarket.jp/wp-content/uploads/2017/12/Ostle_free_trial_version_Normal.pdf).
+
 ![Screenshot](https://c2.staticflickr.com/2/1963/30120869527_d96211615f_c.jpg)
 
 ## Future Improvements

@@ -1,7 +1,8 @@
 import 'arrow_pad.dart';
+import 'board_config.dart';
 import 'game_config.dart';
-import 'ostle_piece.dart';
 import 'ostle_coord.dart';
+import 'ostle_piece.dart';
 
 abstract class GameStateCallback {
   void changeTurn([bool player1Active]);
@@ -25,8 +26,8 @@ class GameState implements OstlePieceCallback, ArrowPadCallback {
 
   GameStateCallback _gameStateCallback;
 
-  GameState(this._gameStateCallback, GameConfig gameConfig) {
-    this.tileCount = gameConfig.boardConfig.tileCount;
+  GameState(this._gameStateCallback, GameConfig gameConfig, BoardConfig boardConfig) {
+    this.tileCount = boardConfig.tileCount;
 
     this.player1 = PlayerState();
     this.player2 = PlayerState();
@@ -49,7 +50,7 @@ class GameState implements OstlePieceCallback, ArrowPadCallback {
       );
     }
 
-    for (OstleCoord coord in gameConfig.boardConfig.holeOstleCoords) {
+    for (OstleCoord coord in boardConfig.holeOstleCoords) {
       board[coord] = OstlePiece.create(
         color: gameConfig.holeColor,
         type: PieceType.hole,

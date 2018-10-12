@@ -1,6 +1,6 @@
 import 'dart:ui';
-import 'piece_node.dart';
 import 'ostle_coord.dart';
+import 'piece_node.dart';
 
 enum PieceType { player1, player2, hole }
 

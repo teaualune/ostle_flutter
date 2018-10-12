@@ -1,8 +1,8 @@
 import 'dart:ui';
 import 'package:spritewidget/spritewidget.dart';
+import 'arrow_pad.dart';
 import 'game_config.dart';
 import 'game_state.dart';
-import 'arrow_pad.dart';
 import 'utils.dart';
 
 // TODO size parameterize
