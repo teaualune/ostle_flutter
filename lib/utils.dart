@@ -27,13 +27,12 @@ class GradientNode extends NodeWithSize {
   }
 }
 
-abstract class ClickableNodeMixin extends Node {
+abstract class ClickableNodeMixin {
 
   int _firstPointer;
 
   void onClick(Offset boxPosition);
   
-  @override
   bool handleEvent(SpriteBoxEvent event) {
     if (event.type == PointerDownEvent) {
       this._firstPointer = event.pointer;
